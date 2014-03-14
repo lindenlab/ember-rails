@@ -65,6 +65,8 @@ module Ember
           unless options.ember_only?
             get_ember_data_for(:development)
             get_ember_data_for(:production)
+            get_ember_spade_js_for(:development)
+            get_ember_spade_js_for(:production)
           end
         rescue Thor::Error
           say('WARNING: no ember-data files on this channel or tag' , :yellow)
@@ -89,6 +91,12 @@ module Ember
         end
       end
 
+      def get_ember_spade_js_for(environment)
+        create_file "vendor/assets/ember/#{environment}/ember.js" do
+          fetch "#{base_url}/#{channel}/#{'ember-spade'}", "vendor/assets/ember/#{environment}/ember-spade.js"
+        end
+      end
+      
       def get_ember_js_for(environment)
 
         create_file "vendor/assets/ember/#{environment}/ember.js" do
